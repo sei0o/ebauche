@@ -1,0 +1,25 @@
+<%# 明暗の確認用フィルタ。サーバ側で画像を加工せず、CSS の filter: url(#...) で見え方だけ変える。
+    sRGB のまま輝度に落とし、しきい値の分だけずらしてから段階化する %>
+<svg class="value-filters" aria-hidden="true" width="0" height="0">
+  <defs>
+    <% luminance = "0.2126 0.7152 0.0722 0 0  0.2126 0.7152 0.0722 0 0  0.2126 0.7152 0.0722 0 0  0 0 0 1 0" %>
+    <filter id="value-gray" color-interpolation-filters="sRGB">
+      <feColorMatrix type="matrix" values="<%= luminance %>"/>
+    </filter>
+    <% { "value-3" => "0 0.5 1", "value-2" => "0 1" }.each do |id, table| %>
+      <filter id="<%= id %>" color-interpolation-filters="sRGB">
+        <feColorMatrix type="matrix" values="<%= luminance %>"/>
+        <feComponentTransfer data-view-mode-target="shift">
+          <feFuncR type="linear" slope="1" intercept="0"/>
+          <feFuncG type="linear" slope="1" intercept="0"/>
+          <feFuncB type="linear" slope="1" intercept="0"/>
+        </feComponentTransfer>
+        <feComponentTransfer>
+          <feFuncR type="discrete" tableValues="<%= table %>"/>
+          <feFuncG type="discrete" tableValues="<%= table %>"/>
+          <feFuncB type="discrete" tableValues="<%= table %>"/>
+        </feComponentTransfer>
+      </filter>
+    <% end %>
+  </defs>
+</svg>

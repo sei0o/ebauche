@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <title><%= content_for?(:title) ? "#{yield(:title)} - ebauche" : "ebauche" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= yield :head %>
+
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="apple-touch-icon" href="/icon.png">
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body data-controller="view-mode">
+    <%= render "shared/value_filters" %>
+    <div id="container">
+      <header>
+        <nav id="pagenav">
+          <ul>
+            <li id="service"><%= link_to "ebauche", root_path %></li>
+            <li><%= link_to "資料", refs_path %></li>
+            <li><%= link_to "模写", studies_path %></li>
+            <li><%= link_to "アップロード", new_ref_path %></li>
+          </ul>
+        </nav>
+      </header>
+      <% flash.each do |type, message| %>
+        <p class="flash <%= type %>"><%= message %></p>
+      <% end %>
+      <main>
+        <%= yield %>
+      </main>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,19 @@
+<% content_for :title, "模写" %>
+
+<%= render "shared/view_mode_switch" %>
+
+<% if @studies.empty? %>
+  <p class="subtle">まだ模写がありません。資料のページからアップロードできます。</p>
+<% else %>
+  <ul class="studies">
+    <% @studies.each do |study| %>
+      <li>
+        <%= link_to study do %>
+          <%= image_tag url_for(study.ref.image), loading: "lazy", alt: "", class: "valued" %>
+          <%= image_tag url_for(study.drawing), loading: "lazy", alt: "", class: "valued" %>
+        <% end %>
+        <span><%= l study.created_at.to_date %><%= " #{study.minutes}分" if study.minutes %></span>
+      </li>
+    <% end %>
+  </ul>
+<% end %>

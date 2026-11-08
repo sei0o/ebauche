@@ -1,0 +1,11 @@
+<% content_for :title, "アップロード" %>
+
+<h2>アップロード</h2>
+<%= form_with url: refs_path, multipart: true, class: "upload" do %>
+  <p>
+    <label><%= radio_button_tag :kind, "photo", true %> 写真</label>
+    <label><%= radio_button_tag :kind, "illust" %> イラスト</label>
+  </p>
+  <p><%= file_field_tag "images[]", multiple: true, accept: "image/*", required: true %></p>
+  <button>追加して、なぜ良いかを書く</button>
+<% end %>

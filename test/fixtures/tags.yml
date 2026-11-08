@@ -1,0 +1,9 @@
+light:
+  name: 光
+  category: 0
+  position: 0
+
+composition:
+  name: 構図
+  category: 0
+  position: 1

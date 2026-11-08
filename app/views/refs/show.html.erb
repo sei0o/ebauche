@@ -1,0 +1,72 @@
+<% content_for :title, "資料 #{@ref.id}" %>
+
+<nav class="filters">
+  <%= link_to "一覧", refs_path(filter_params) %>
+  <%= link_to_if @newer, "新しい", (@newer && ref_path(@newer, filter_params)) %>
+  <%= link_to_if @older, "古い", (@older && ref_path(@older, filter_params)) %>
+</nav>
+
+<div class="ref">
+  <figure data-controller="slic">
+    <%= image_tag url_for(@ref.image), alt: "", class: "valued", data: { slic_target: "image" } %>
+    <%= render "shared/view_mode_switch", slic: true %>
+  </figure>
+
+  <%= form_with model: @ref, url: ref_path(@ref, filter_params) do |f| %>
+    <h3>何がよい？</h3>
+    <p class="choices">
+      <%= hidden_field_tag "ref[aspect_ids][]", "" %>
+      <% @aspects.each do |tag| %>
+        <label><%= check_box_tag "ref[aspect_ids][]", tag.id, @ref.tag_ids.include?(tag.id), id: "aspect_#{tag.id}" %> <%= tag.name %></label>
+      <% end %>
+    </p>
+
+    <h3>描けそう？</h3>
+    <p class="choices">
+      <% { "can" => "描けそう", "unknown" => "わからない", "cannot" => "むりそう" }.each do |value, label| %>
+        <label><%= f.radio_button :drawable, value %> <%= label %></label>
+      <% end %>
+    </p>
+
+    <h3>メモ</h3>
+    <%= f.text_area :memo, rows: 4, placeholder: "逆光の縁だけ彩度が高い。影の中に青を入れている" %>
+
+    <h3>対象・技法</h3>
+    <%= text_field_tag "ref[free_tags]",
+          @ref.tags.reject(&:aspect?).map { |t| t.subject? ? t.name : "#{Tag::CATEGORY_LABELS[t.category]}:#{t.name}" }.join(" "),
+          placeholder: "猫 技法:厚塗り", autocomplete: "off", autocapitalize: "off" %>
+
+    <details>
+      <summary>そのほか</summary>
+      <p><%= f.select :kind, { "写真" => "photo", "イラスト" => "illust" } %></p>
+      <p><%= f.url_field :source_url, placeholder: "出典URL" %></p>
+    </details>
+
+    <p>
+      <%= f.submit "保存" %>
+      <%= f.submit "保存して次の未記入へ", name: "commit_next" %>
+    </p>
+  <% end %>
+</div>
+
+<h3>模写</h3>
+<%= form_with model: [ @ref, Study.new ], class: "upload" do |f| %>
+  <%= f.file_field :drawing, accept: "image/*", required: true %>
+  <%= f.select :minutes, { "時間なし" => "", "5分" => 5, "15分" => 15, "30分" => 30, "60分" => 60 } %>
+  <button>アップロードして比べる</button>
+<% end %>
+
+<% if @ref.studies.any? %>
+  <ul class="refs">
+    <% @ref.studies.each do |study| %>
+      <li>
+        <%= link_to study do %>
+          <%= image_tag url_for(study.drawing), loading: "lazy", alt: "", class: "valued" %>
+        <% end %>
+        <span><%= l study.created_at.to_date %><%= " #{study.minutes}分" if study.minutes %></span>
+      </li>
+    <% end %>
+  </ul>
+<% end %>
+
+<%= button_to "削除", ref_path(@ref), method: :delete, class: "delete", form: { data: { turbo_confirm: "削除しますか？" } } %>

@@ -1,0 +1,36 @@
+<% content_for :title, "資料" %>
+
+<nav class="filters">
+  <%= link_to "すべて", refs_path(filter_params.except(:kind)), "aria-current": (params[:kind].blank? ? "page" : nil) %>
+  <%= link_to "写真", refs_path(filter_params.merge(kind: "photo")), "aria-current": (params[:kind] == "photo" ? "page" : nil) %>
+  <%= link_to "イラスト", refs_path(filter_params.merge(kind: "illust")), "aria-current": (params[:kind] == "illust" ? "page" : nil) %>
+  |
+  <% if params[:filter] == "unannotated" %>
+    <%= link_to "未記入のみ", refs_path(filter_params.except(:filter)), "aria-current": "page" %>
+  <% elsif @unannotated_count.positive? %>
+    <%= link_to "未記入 #{@unannotated_count}", refs_path(filter_params.merge(filter: "unannotated")) %>
+    <%= link_to "順に書く", next_unannotated_refs_path %>
+  <% end %>
+  |
+  <% @aspects.each do |tag| %>
+    <% on = params[:tag].to_s == tag.id.to_s %>
+    <%= link_to tag.name, refs_path(on ? filter_params.except(:tag) : filter_params.merge(tag: tag.id)), "aria-current": (on ? "page" : nil) %>
+  <% end %>
+</nav>
+
+<%= render "shared/view_mode_switch" %>
+
+<% if @refs.empty? %>
+  <p class="subtle">まだ資料がありません。<%= link_to "アップロード", new_ref_path %></p>
+<% else %>
+  <ul class="refs">
+    <% @refs.each do |ref| %>
+      <li class="<%= "unannotated" unless ref.annotated? %>">
+        <%= link_to ref_path(ref, filter_params) do %>
+          <%= image_tag url_for(ref.image), loading: "lazy", alt: "", class: "valued" %>
+        <% end %>
+        <span><%= ref.tags.select(&:aspect?).map(&:name).join(" ") %></span>
+      </li>
+    <% end %>
+  </ul>
+<% end %>

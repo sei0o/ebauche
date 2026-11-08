@@ -1,0 +1,299 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: white;
+  color: #1f1f1f;
+}
+
+#container {
+  width: 100%;
+  max-width: 60rem;
+  margin: 0 auto;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+#pagenav {
+  margin-bottom: 0.5rem;
+  font-size: 0.8rem;
+  color: #333;
+}
+
+#pagenav ul {
+  display: inline;
+  margin: 0;
+  padding: 0;
+}
+
+#pagenav li {
+  display: inline;
+  margin: 0 0.5rem;
+}
+
+#service {
+  font-weight: bold;
+}
+
+#pagenav a {
+  text-decoration: none;
+  color: #333;
+}
+
+#pagenav a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+  #container {
+    max-width: none;
+    margin: 0;
+  }
+}
+
+h2 {
+  font-size: 1.25rem;
+}
+
+h3 {
+  margin: 1rem 0 0.4rem;
+  font-size: 0.9rem;
+  font-weight: normal;
+  color: #999;
+}
+
+.subtle, .flash {
+  color: #666;
+  font-size: 0.92rem;
+}
+
+.flash.alert {
+  color: #c0392b;
+}
+
+button, input[type=submit] {
+  border: 1px solid #ddd;
+  background: #fff;
+  color: #555;
+  border-radius: 3px;
+  padding: 0.3rem 0.75rem;
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+button:hover, input[type=submit]:hover {
+  background: #f5f5f5;
+}
+
+textarea, input[type=text], input[type=url], select {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #ddd;
+  padding: 0.4rem 0;
+  font: inherit;
+  font-size: 16px;
+  outline: none;
+  background: transparent;
+  box-sizing: border-box;
+}
+
+textarea:focus, input[type=text]:focus, input[type=url]:focus {
+  border-bottom-color: #3a3a3a;
+}
+
+textarea::placeholder, input::placeholder {
+  color: #ccc;
+}
+
+.filters {
+  margin-bottom: 0.75rem;
+  font-size: 0.9rem;
+  color: #ccc;
+}
+
+.filters a {
+  margin-right: 0.5rem;
+  color: #333;
+  text-decoration: none;
+}
+
+.filters a[aria-current] {
+  font-weight: bold;
+}
+
+/* 見え方の切り替え。html の data-view-mode で資料画像すべてにかかる */
+/* HDR（ゲインマップ付き JPEG）は filter を通すと白を超えた部分が飛ぶので、常に SDR で表示する */
+.valued { dynamic-range-limit: standard; }
+html[data-view-mode=gray] .valued { filter: url(#value-gray); }
+html[data-view-mode=value3] .valued { filter: url(#value-3); }
+html[data-view-mode=value2] .valued { filter: url(#value-2); }
+
+.view-mode {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 0.5rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.view-mode button[aria-pressed=true] {
+  background: #f3f3f3;
+  color: #1f1f1f;
+}
+
+.view-mode label[hidden] {
+  display: none;
+}
+
+.refs {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 0.5rem;
+}
+
+.refs a {
+  display: block;
+  aspect-ratio: 1;
+  background: #f3f3f3;
+}
+
+.refs img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.refs span {
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.refs .unannotated span::before {
+  content: "未記入";
+  color: #c0392b;
+}
+
+.ref {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+@media (max-width: 760px) {
+  .ref {
+    grid-template-columns: 1fr;
+  }
+}
+
+.ref figure {
+  margin: 0;
+}
+
+.ref figure .valued {
+  width: 100%;
+  max-height: 78vh;
+  object-fit: contain;
+  background: #f3f3f3;
+  margin-bottom: 0.5rem;
+}
+
+.choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  margin: 0;
+}
+
+.choices label {
+  padding: 0.6rem 0.8rem;
+  cursor: pointer;
+}
+
+.choices label:has(input:checked) {
+  background: #f3f3f3;
+}
+
+details {
+  margin-top: 1rem;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.delete {
+  margin-top: 2rem;
+  border: none;
+  color: #ccc;
+}
+
+.delete:hover {
+  color: #c0392b;
+  background: none;
+}
+
+.upload label {
+  margin-right: 1rem;
+}
+
+.compare {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.compare figure {
+  margin: 0;
+}
+
+.compare .valued {
+  width: 100%;
+  height: 70vh;
+  object-fit: contain;
+  background: #f3f3f3;
+  display: block;
+}
+
+.compare figcaption {
+  font-size: 0.8rem;
+  color: #999;
+}
+
+.studies {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1rem 0.5rem;
+}
+
+.studies a {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+}
+
+.studies img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  background: #f3f3f3;
+  display: block;
+}
+
+.studies span {
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.valued[hidden] {
+  display: none;
+}

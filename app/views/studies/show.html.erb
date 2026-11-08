@@ -1,0 +1,29 @@
+<% content_for :title, "模写 #{l @study.created_at.to_date}" %>
+
+<nav class="filters">
+  <%= link_to "資料に戻る", @ref %>
+  <%= link_to "模写の一覧", studies_path %>
+</nav>
+
+<div data-controller="slic">
+  <div class="compare">
+    <figure>
+      <%= image_tag url_for(@ref.image), alt: "資料", class: "valued", data: { slic_target: "image" } %>
+      <figcaption>資料</figcaption>
+    </figure>
+    <figure>
+      <%= image_tag url_for(@study.drawing), alt: "模写", class: "valued", data: { slic_target: "image" } %>
+      <figcaption><%= l @study.created_at.to_date %><%= " #{@study.minutes}分" if @study.minutes %></figcaption>
+    </figure>
+  </div>
+
+  <%= render "shared/view_mode_switch", slic: true %>
+</div>
+
+<%= form_with model: @study do |f| %>
+  <h3>振り返り</h3>
+  <%= f.text_area :memo, rows: 4, placeholder: "明暗の幅が狭い。光の当たる面の形がずれている" %>
+  <p><%= f.submit "保存" %></p>
+<% end %>
+
+<%= button_to "削除", @study, method: :delete, class: "delete", form: { data: { turbo_confirm: "削除しますか？" } } %>
