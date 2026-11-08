@@ -40,7 +40,19 @@ body {
   color: #333;
 }
 
-#pagenav a:hover {
+#pagenav form {
+  display: inline;
+}
+
+#pagenav button {
+  border: none;
+  background: none;
+  padding: 0;
+  font-size: inherit;
+  color: #333;
+}
+
+#pagenav a:hover, #pagenav button:hover {
   text-decoration: underline;
 }
 
@@ -86,7 +98,7 @@ button:hover, input[type=submit]:hover {
   background: #f5f5f5;
 }
 
-textarea, input[type=text], input[type=url], select {
+textarea, input[type=text], input[type=url], input[type=email], input[type=password], select {
   width: 100%;
   border: none;
   border-bottom: 1px solid #ddd;
@@ -98,7 +110,7 @@ textarea, input[type=text], input[type=url], select {
   box-sizing: border-box;
 }
 
-textarea:focus, input[type=text]:focus, input[type=url]:focus {
+textarea:focus, input[type=text]:focus, input[type=url]:focus, input[type=email]:focus, input[type=password]:focus {
   border-bottom-color: #3a3a3a;
 }
 
@@ -296,4 +308,8 @@ details {
 
 .valued[hidden] {
   display: none;
+}
+
+.login {
+  max-width: 20rem;
 }

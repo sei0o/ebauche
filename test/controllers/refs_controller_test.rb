@@ -1,6 +1,8 @@
 require "test_helper"
 
 class RefsControllerTest < ActionDispatch::IntegrationTest
+  setup { sign_in }
+
   test "index lists refs and filters by shelf" do
     photo = create_ref(kind: :photo)
     illust = create_ref(kind: :illust)

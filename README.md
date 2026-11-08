@@ -12,12 +12,19 @@ bin/rails server
 
 iPad / iPhone から見るときは `bin/rails server -b 0.0.0.0` で同じ LAN から開く。
 
+### ログイン
+
+Rails 標準の認証（`has_secure_password`）で、自分ひとり分のアカウントだけ作る。登録画面はない。
+
+```sh
+EBAUCHE_EMAIL=me@example.com EBAUCHE_PASSWORD=... bin/rails db:seed   # 作成。もう一度流すとパスワードを変更
+```
+
 ### 環境変数
 
 | 名前 | 用途 |
 |---|---|
-| `EBAUCHE_PASSWORD` | Basic 認証のパスワード。未設定なら開発時は認証なし（本番では必須） |
-| `EBAUCHE_USER` | Basic 認証のユーザー名（既定 `me`） |
+| `EBAUCHE_EMAIL` / `EBAUCHE_PASSWORD` | `db:seed` で作るアカウント（起動時には使わない） |
 | `EBAUCHE_API_TOKEN` | iPhone ショートカットからのアップロード用トークン |
 
 ## できること

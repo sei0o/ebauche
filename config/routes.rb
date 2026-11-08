@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resource :session
   root "refs#index"
 
   resources :refs, except: :edit do

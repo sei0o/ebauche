@@ -25,6 +25,9 @@
             <li><%= link_to "資料", refs_path %></li>
             <li><%= link_to "模写", studies_path %></li>
             <li><%= link_to "アップロード", new_ref_path %></li>
+            <% if authenticated? %>
+              <li><%= button_to "ログアウト", session_path, method: :delete %></li>
+            <% end %>
           </ul>
         </nav>
       </header>

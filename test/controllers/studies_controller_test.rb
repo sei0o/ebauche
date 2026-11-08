@@ -1,7 +1,10 @@
 require "test_helper"
 
 class StudiesControllerTest < ActionDispatch::IntegrationTest
-  setup { @ref = create_ref }
+  setup do
+    sign_in
+    @ref = create_ref
+  end
 
   test "uploading a drawing opens the comparison" do
     assert_difference("@ref.studies.count", 1) do

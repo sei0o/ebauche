@@ -1,0 +1,7 @@
+<% content_for :title, "ログイン" %>
+
+<%= form_with url: session_path, class: "login" do |form| %>
+  <p><%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "username", placeholder: "メールアドレス", value: params[:email_address] %></p>
+  <p><%= form.password_field :password, required: true, autocomplete: "current-password", placeholder: "パスワード", maxlength: 72 %></p>
+  <p><%= form.submit "ログイン" %></p>
+<% end %>

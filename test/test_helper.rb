@@ -16,3 +16,9 @@ module ActiveSupport
     end
   end
 end
+
+class ActionDispatch::IntegrationTest
+  def sign_in(user = users(:me))
+    post session_path, params: { email_address: user.email_address, password: "password" }
+  end
+end
